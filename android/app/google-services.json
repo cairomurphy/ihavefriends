@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "832867927853",
+    "project_id": "ihavefriends-baf5c",
+    "storage_bucket": "ihavefriends-baf5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832867927853:android:7d64a1345dca84c68275a4",
+        "android_client_info": {
+          "package_name": "com.example.ihavefriends"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832867927853-hjgi80s90gc1s0ikc1h5uqbpsn9v9m2o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ihavefriends",
+            "certificate_hash": "ccb423d0d87ddb3541cd7f53071e14d41780753e"
+          }
+        },
+        {
+          "client_id": "832867927853-qlh3svoskjerm14qn48hgtdifkqeu6sg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLKz6EIANEZ0QOKeW9B_MHsiIE_YgxRqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832867927853-qlh3svoskjerm14qn48hgtdifkqeu6sg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
