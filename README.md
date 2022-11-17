@@ -1,16 +1,8 @@
-# ihavefriends
+# iHaveFriends
 
-A new Flutter project.
+A Flutter project tp help university students find friends on campus.
+Made for an Information Systems Project Management class at BYU.
 
-## Getting Started
+## How to Run
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project can be run by cloning and running main.dart with flutter run
