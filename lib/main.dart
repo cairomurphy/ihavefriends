@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ihavefriends/models/models.dart';
+import 'package:ihavefriends/views/feed%20page/feed_page.dart';
 import 'package:provider/provider.dart';
 import 'package:ihavefriends/provider.dart';
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AppProvider()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demoo',
+        title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           // This is the theme of your application.
@@ -64,15 +64,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     // Example use function in provider.
-    Provider.of<AppProvider>(context, listen: false).editProfile(Student(id: 'test'));
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+    // Provider.of<AppProvider>(context, listen: false).editProfile(Student(id: 'test'));
+    // setState(() {
+    //   // This call to setState tells the Flutter framework that something has
+    //   // changed in this State, which causes it to rerun the build method below
+    //   // so that the display can reflect the updated values. If we changed
+    //   // _counter without calling setState(), then the build method would not be
+    //   // called again, and so nothing would appear to happen.
+    //   _counter++;
+    // });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const FeedPage(),
+      ),
+    );
   }
 
   @override
