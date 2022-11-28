@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ihavefriends/views/feed%20page/feed_item.dart';
+import 'package:ihavefriends/pages/feed%20page/feed_item.dart';
 import 'package:provider/provider.dart';
 import 'package:ihavefriends/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

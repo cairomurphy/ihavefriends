@@ -3,6 +3,8 @@ import 'package:ihavefriends/pages/home_page.dart';
 import 'package:ihavefriends/pages/login_register_page.dart';
 import 'package:flutter/material.dart';
 
+import 'pages/feed page/feed_page.dart';
+
 class WidgetTree extends StatefulWidget {
   const WidgetTree({Key? key}) : super(key: key);
 
@@ -17,7 +19,7 @@ class _WidgetTreeState extends State<WidgetTree> {
       stream: Auth().authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return HomePage();
+          return const FeedPage();
         } else {
           return const LoginPage();
         }

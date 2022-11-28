@@ -1,9 +1,8 @@
 import 'package:ihavefriends/widget_tree.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ihavefriends/views/feed%20page/feed_page.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ihavefriends/provider.dart';
-import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,12 +15,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
+    return MultiProvider(
+      providers : [
+        ChangeNotifierProvider(create: (_) => AppProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+        ),
+        home: const WidgetTree(),
       ),
-      home: const WidgetTree(),
     );
   }
 }
