@@ -1,5 +1,8 @@
 import 'package:ihavefriends/widget_tree.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ihavefriends/views/feed%20page/feed_page.dart';
+import 'package:provider/provider.dart';
+import 'package:ihavefriends/provider.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
