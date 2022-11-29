@@ -6,23 +6,67 @@ part 'models.g.dart';
 
 // this is temporary, can be updated
 @JsonSerializable()
-class Student {
-  String id;
-  String name;
-  String scheduleId;
-  String phone;
+class User {
+  String UserID;
+  String FirstName;
+  String LastName;
+  String Gender;
+  int Age;
+  String Biography;
+  String ImageURL;
 
   Student({
-    required this.id,
-    this.name = '',
-    this.scheduleId = '',
-    this.phone = '',
+    required this.UserID,
+    required this.FirstName = '',
+    this.LastName = '',
+    this.Gender = '',
+    this.Age = 0,
+    this.Biography = '',
+    this.ImageURL = '',
   });
 
-  factory Student.fromJson(Map<String, dynamic> json) => _$StudentFromJson(json);
-  Map<String, dynamic> toJson() => _$StudentToJson(this);
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
+@JsonSerializable()
+class Schedule {
+  String ScheduleID;
+  String UserID;
+  [] TripList;
+
+  Schedule({
+    required this.ScheudleID,
+    required this.UserID = '',
+    this.TripList = [],
+  });
+
+  factory Schedule.fromJson(Map<String, dynamic> json) => _$ScheduleFromJson(json);
+  Map<String, dynamic> toJson() => _$ScheduleToJson(this);
+
+}@JsonSerializable()
+class User {
+  String UserID;
+  String FirstName;
+  String LastName;
+  String Gender;
+  int Age;
+  String Biography;
+  String ImageURL;
+
+  Student({
+    required this.UserID,
+    required this.FirstName = '',
+    this.LastName = '',
+    this.Gender = '',
+    this.Age = 0,
+    this.Biography = '',
+    this.ImageURL = '',
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+}
 // EXAMPLE //
 // I always recommend making as few things required as possible
 // @JsonSerializable()
