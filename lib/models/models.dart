@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'models.g.dart';
 
 // Run 'flutter pub run build_runner build' to create generated dart classes for firestore
 // If regenerating file, remove .toIso8601String methods on dates. It will break when uploading to firebase
 
-// this is temporary, can be updated
 @JsonSerializable()
 class User {
   String userID;
@@ -15,6 +13,7 @@ class User {
   int age;
   String biography;
   String imageURL;
+  String phoneNumber;
 
   User({
     required this.userID,
@@ -24,6 +23,7 @@ class User {
     this.age = 0,
     this.biography = '',
     this.imageURL = '',
+    this.phoneNumber = '',
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -44,11 +44,13 @@ class Schedule {
 
   factory Schedule.fromJson(Map<String, dynamic> json) => _$ScheduleFromJson(json);
   Map<String, dynamic> toJson() => _$ScheduleToJson(this);
+}
 
-}@JsonSerializable()
+@JsonSerializable()
 class Trip {
   String tripID;
-  String locationID;
+  String startingLocationID;
+  String endingLocationID;
   String scheduleID;
   String userID;
   String courseName;
@@ -58,7 +60,8 @@ class Trip {
 
   Trip({
     required this.tripID,
-    required this.locationID,
+    required this.startingLocationID,
+    required this.endingLocationID,
     required this.scheduleID,
     required this.userID,
     this.courseName = '',
@@ -87,24 +90,3 @@ class Location {
   factory Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 }
-// EXAMPLE //
-// I always recommend making as few things required as possible
-// @JsonSerializable()
-// class Recipe {
-//   String id;
-//   String name;
-//   String className;
-//   List<String> ingredientAmounts;
-//   int number;
-//
-//   Recipe({
-//     required this.id,
-//     required this.name,
-//     this.className = 'Main',
-//     this.ingredientAmounts = const <String>[],
-//     this.number = 0,
-//   });
-//
-//   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
-//   Map<String, dynamic> toJson() => _$RecipeToJson(this);
-// }

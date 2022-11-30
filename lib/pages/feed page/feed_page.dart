@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ihavefriends/models/models.dart';
 import 'package:ihavefriends/pages/feed%20page/feed_item.dart';
 import 'package:provider/provider.dart';
 import 'package:ihavefriends/provider.dart';
@@ -15,7 +16,7 @@ class FeedPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-        child: FutureBuilder<List<String>>(
+        child: FutureBuilder<List<Trip>>(
           future: Provider.of<AppProvider>(context, listen: false).findWalkingBuddies(),
           builder: (builder, snapshot) {
             if (snapshot.hasData) {
@@ -23,18 +24,41 @@ class FeedPage extends StatelessWidget {
               if (data != null && data.isNotEmpty) {
                 List<Widget> feedItems = [];
                 for (var item in data) {
+                  String dayOfWeek = '';
+                  if (item.departureTime.weekday == 0) {
+                    dayOfWeek = 'Sunday';
+                  } else if (item.departureTime.weekday == 1) {
+                    dayOfWeek = 'Monday';
+                  } else if (item.departureTime.weekday == 2) {
+                    dayOfWeek = 'Tuesday';
+                  } else if (item.departureTime.weekday == 3) {
+                    dayOfWeek = 'Wednesday';
+                  } else if (item.departureTime.weekday == 4) {
+                    dayOfWeek = 'Thursday';
+                  } else if (item.departureTime.weekday == 5) {
+                    dayOfWeek = 'Friday';
+                  } else {
+                    dayOfWeek = 'Saturday';
+                  }
+
                   if (data.indexOf(item) == 0) {
-                    //TODO: get name of day string from timestamp
                     feedItems.add(
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 10, left: 10),
-                        child: Text('dayOfTheWeek'),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10, left: 10),
+                        child: Text(dayOfWeek),
                       ),
                     );
-                    feedItems.add(const FeedItem());
+                    feedItems.add(FeedItem(trip: item,));
                   } else {
-                    //TODO: check for different week day, add new dayOfWeek
-                    feedItems.add(const FeedItem());
+                    if (item.departureTime.weekday != data[data.indexOf(item)-1].departureTime.weekday) {
+                      feedItems.add(
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10, left: 10),
+                          child: Text(dayOfWeek),
+                        ),
+                      );
+                    }
+                    feedItems.add(FeedItem(trip: item,));
                   }
                 }
 
