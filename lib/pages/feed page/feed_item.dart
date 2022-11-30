@@ -19,7 +19,7 @@ class FeedItem extends StatelessWidget {
         elevation: 3,
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: FutureBuilder<User>(
+          child: FutureBuilder<User?>(
             future: Provider.of<AppProvider>(context, listen: false).fetchBuddy(trip.userID),
             builder: (builder, snapshot) {
               if (snapshot.hasData) {
@@ -71,7 +71,7 @@ class FeedItem extends StatelessWidget {
                               size: 20,
                             ),
                             const SizedBox(width: 5,),
-                            FutureBuilder<Location>(
+                            FutureBuilder<Location?>(
                               future: Provider.of<AppProvider>(context, listen: false).fetchLocation(trip.startingLocationID),
                               builder: (builder, snapshot) {
                                 if (snapshot.hasData) {
@@ -111,7 +111,7 @@ class FeedItem extends StatelessWidget {
                               color: Colors.grey,
                               size: 20,
                             ),
-                            FutureBuilder<Location>(
+                            FutureBuilder<Location?>(
                               future: Provider.of<AppProvider>(context, listen: false).fetchLocation(trip.endingLocationID),
                               builder: (builder, snapshot) {
                                 if (snapshot.hasData) {
