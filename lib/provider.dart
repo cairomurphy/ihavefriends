@@ -7,46 +7,83 @@ final _firestore = FirebaseFirestore.instance;
 class AppProvider extends ChangeNotifier {
   AppProvider();
 
-  Future<List<String>> findWalkingBuddies() async {
-    /// Find schedule matches, order them chronologically starting with today's weekday, return list
+  Future<List<Trip>> findWalkingBuddies() async {
+    /// Find schedule matches, grab the schedules that the current student matches with,
+    /// order them chronologically starting with today's weekday, return list
+    /// NOTE: DO NOT return the list of the current student's trips. Return the trips with different student's IDs
+    //TODO: find walking buddies
     try {
       await Future.delayed(const Duration(seconds: 1));
     } catch (error) {
       debugPrint(error.toString());
     }
-    return ['1', '2', '3'];
+
+    //returning dummy data
+    return [
+      Trip(
+          tripID: '1',
+          startingLocationID: '1',
+          endingLocationID: '2',
+          scheduleID: '1',
+          userID: '1',
+          departureTime: DateTime.now()),
+      Trip(
+          tripID: '1',
+          startingLocationID: '2',
+          endingLocationID: '3',
+          scheduleID: '1',
+          userID: '1',
+          departureTime: DateTime.now()),
+      Trip(
+          tripID: '1',
+          startingLocationID: '3',
+          endingLocationID: '4',
+          scheduleID: '1',
+          userID: '1',
+          departureTime: DateTime.now())
+    ];
   }
 
-  Future<String> fetchBuddy(String id) async {
-    /// Fetch buddy
+  Future<User> fetchBuddy(String id) async {
+    //TODO: fetch user
     try {
       await Future.delayed(const Duration(seconds: 1));
     } catch (error) {
       debugPrint(error.toString());
     }
-    return 'buddy';
+    return User(userID: '1', firstName: 'Test Student', lastName: 'Last Name', phoneNumber: '1234567890');
+  }
+
+  Future<Location> fetchLocation(String id) async {
+    //TODO: fetch location
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+    return Location(locationID: '1', zoneID: '1', locationName: 'JSB');
   }
 
   // Example write to Firestore
-  Future<void> editProfile(Student student) async {
-    try {
-      var ref = _firestore.collection('students').doc(student.id);
-      await ref.set(student.toJson());
-    } catch (error) {
-      debugPrint(error.toString());
-    }
-  }
+  // Future<void> editProfile(Student student) async {
+  //   try {
+  //     var ref = _firestore.collection('students').doc(student.id);
+  //     await ref.set(student.toJson());
+  //   } catch (error) {
+  //     debugPrint(error.toString());
+  //   }
+  // }
 
   // Example read Firestore
-  Future<Student?> getStudent(String id) async {
-    try {
-      var doc = await _firestore.collection('students').doc(id).get();
-      if (doc.exists) {
-        return Student.fromJson(doc.data()!);
-      }
-    } catch (error) {
-      debugPrint(error.toString());
-    }
-    return null;
-  }
+  // Future<Student?> getStudent(String id) async {
+  //   try {
+  //     var doc = await _firestore.collection('students').doc(id).get();
+  //     if (doc.exists) {
+  //       return Student.fromJson(doc.data()!);
+  //     }
+  //   } catch (error) {
+  //     debugPrint(error.toString());
+  //   }
+  //   return null;
+  // }
 }
