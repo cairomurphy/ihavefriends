@@ -1,5 +1,4 @@
 import 'package:ihavefriends/auth.dart';
-import 'package:ihavefriends/pages/home_page.dart';
 import 'package:ihavefriends/pages/login_register_page.dart';
 import 'package:flutter/material.dart';
 
