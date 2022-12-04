@@ -44,24 +44,30 @@ class AppProvider extends ChangeNotifier {
     ];
   }
 
-  Future<User> fetchBuddy(String id) async {
-    //TODO: fetch user
+  Future<User?> fetchBuddy(String id) async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      final doc = await _firestore.collection('users').doc(id).get();
+      if (doc.exists) {
+        User user = User.fromJson(doc.data()!);
+        return user;
+      }
     } catch (error) {
       debugPrint(error.toString());
     }
-    return User(userID: '1', firstName: 'Test Student', lastName: 'Last Name', phoneNumber: '1234567890');
+    return null;
   }
 
-  Future<Location> fetchLocation(String id) async {
-    //TODO: fetch location
+  Future<Location?> fetchLocation(String id) async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      final doc = await _firestore.collection('locations').doc(id).get();
+      if (doc.exists) {
+        Location location = Location.fromJson(doc.data()!);
+        return location;
+      }
     } catch (error) {
       debugPrint(error.toString());
     }
-    return Location(locationID: '1', zoneID: '1', locationName: 'JSB');
+    return null;
   }
 
   // Example write to Firestore

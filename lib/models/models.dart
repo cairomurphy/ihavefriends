@@ -80,7 +80,6 @@ class Location {
   String zoneID;
   String locationName;
 
-
   Location({
     required this.locationID,
     required this.zoneID,
