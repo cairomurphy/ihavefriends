@@ -3,6 +3,8 @@ import 'package:ihavefriends/pages/feed%20page/feed_item.dart';
 import 'package:provider/provider.dart';
 import 'package:ihavefriends/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ihavefriends/pages/login_register_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FeedPage extends StatelessWidget {
   const FeedPage({Key? key}) : super(key: key);
@@ -12,6 +14,7 @@ class FeedPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('iHaveFriends'),
+        
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
@@ -41,6 +44,11 @@ class FeedPage extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                     ActionChip(
+                      label: Text("Logout"),
+                      onPressed: () {
+                        logout(context);
+                      }),
                     const SizedBox(height: 15,),
                     const Text(
                       'Upcoming Walks',
@@ -95,5 +103,11 @@ class FeedPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginPage()));
   }
 }
