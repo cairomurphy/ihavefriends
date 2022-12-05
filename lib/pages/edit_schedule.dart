@@ -9,7 +9,7 @@ class EditSchedule extends StatefulWidget{
 }
 
 class _EditScheduleState extends State<EditSchedule> {
-  Location dropDownValue = Location(locationID: '10',locationName: 'HFAC', zoneID: '7');
+  Location? dropDownValue;
 
   @override
   Widget build(BuildContext context) {
@@ -25,29 +25,27 @@ class _EditScheduleState extends State<EditSchedule> {
             if (snapshot.hasData) {
               final data = snapshot.data;
               if (data != null) {
-                return Text(data.length.toString());
-                // return DropdownButton<Location?>(
-                //   value: dropDownValue,
-                //   icon: const Icon(Icons.arrow_downward),
-                //   elevation: 16,
-                //   style: const TextStyle(color: Colors.deepPurple),
-                //   underline: Container(
-                //     height: 2,
-                //     color: Colors.deepPurpleAccent,
-                //   ),
-                //   onChanged: (Location? value) {
-                //     // This is called when the user selects an item.
-                //     setState(() {
-                //       dropDownValue = value!;
-                //     });
-                //   },
-                //   items: data.map<DropdownMenuItem<Location?>>((Location? value) {
-                //     return DropdownMenuItem<Location?>(
-                //       value: value,
-                //       child: Text(value?.locationName ?? ''),
-                //     );
-                //   }).toList(),
-                // );
+                return DropdownButton<Location>(
+                  value: dropDownValue,
+                  icon: const Icon(Icons.arrow_downward),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.deepPurpleAccent,
+                  ),
+                  onChanged: (Location? value) {
+                    setState(() {
+                      dropDownValue = value!;
+                    });
+                  },
+                  items: data.map<DropdownMenuItem<Location>>((Location value) {
+                    return DropdownMenuItem<Location>(
+                      value: value,
+                      child: Text(value.locationName),
+                    );
+                  }).toList(),
+                );
               }
             }
             return const SizedBox();
