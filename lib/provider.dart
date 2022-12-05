@@ -48,8 +48,8 @@ class AppProvider extends ChangeNotifier {
     try {
       final doc = await _firestore.collection('users').doc(id).get();
       if (doc.exists) {
-        User user = User.fromJson(doc.data()!);
-        return user;
+        AppUser appUser = AppUser.fromJson(doc.data()!);
+        return appUser;
       }
     } catch (error) {
       debugPrint(error.toString());
