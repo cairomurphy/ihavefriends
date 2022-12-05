@@ -5,7 +5,7 @@ part 'models.g.dart';
 // If regenerating file, remove .toIso8601String methods on dates. It will break when uploading to firebase
 
 @JsonSerializable()
-class User {
+class AppUser {
   String userID;
   String firstName;
   String lastName;
@@ -15,7 +15,7 @@ class User {
   String imageURL;
   String phoneNumber;
 
-  User({
+  AppUser({
     required this.userID,
     required this.firstName,
     required this.lastName,
@@ -26,8 +26,8 @@ class User {
     this.phoneNumber = '',
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  factory AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
+  Map<String, dynamic> toJson() => _$AppUserToJson(this);
 }
 
 @JsonSerializable()
