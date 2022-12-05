@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ihavefriends/models/models.dart';
 import 'package:provider/provider.dart';
 import 'package:ihavefriends/provider.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class EditSchedule extends StatefulWidget{
   const EditSchedule({super.key});
@@ -138,5 +139,61 @@ class _EditScheduleState extends State<EditSchedule> {
         ],),
       ),
     );
+  }
+}
+
+class CustomPicker extends CommonPickerModel {
+  String digits(int value, int length) {
+    return '$value'.padLeft(length, "0");
+  }
+
+  CustomPicker({DateTime? currentTime, LocaleType? locale})
+      : super(locale: locale) {
+    this.currentTime = currentTime ?? DateTime.now();
+    this.setLeftIndex(this.currentTime.hour);
+    this.setMiddleIndex(this.currentTime.minute);
+    this.setRightIndex(this.currentTime.second);
+  }
+
+  @override
+  String? leftStringAtIndex(int index) {
+    if (index >= 0 && index < 24) {
+      return this.digits(index, 2);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  String? middleStringAtIndex(int index) {
+    if (index >= 0 && index < 12) {
+      return this.digits(index, 2);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  String? rightStringAtIndex(int index) {
+    if (index >= 0 && index < 60) {
+      return this.digits(index, 2);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  String leftDivider() {
+    return "|";
+  }
+
+  @override
+  String rightDivider() {
+    return "|";
+  }
+
+  @override
+  List<int> layoutProportions() {
+    return [1, 2, 1];
   }
 }
