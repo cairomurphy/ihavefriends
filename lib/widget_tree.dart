@@ -1,4 +1,5 @@
 import 'package:ihavefriends/auth.dart';
+import 'package:ihavefriends/pages/edit_schedule.dart';
 import 'package:ihavefriends/pages/login_register_page.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,8 @@ class _WidgetTreeState extends State<WidgetTree> {
       stream: Auth().authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return const FeedPage();
+          return EditSchedule();
+          // FeedPage();
         } else {
           return const LoginPage();
         }

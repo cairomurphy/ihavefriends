@@ -80,6 +80,19 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
+  Future <List<Location>?> fetchLocations() async {
+    try {
+      final doc = await _firestore.collection('locations').get();
+      if (doc.docs.isNotEmpty) {
+        List<Location> locations = doc.docs.map((doc) => Location.fromJson(doc.data())).toList();
+        return locations;
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+    return null;
+  }
+
   // Example write to Firestore
   // Future<void> editProfile(Student student) async {
   //   try {
