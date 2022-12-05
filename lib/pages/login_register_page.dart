@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ihavefriends/auth.dart';
 import 'package:ihavefriends/models/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ihavefriends/pages/feed%20page/feed_page.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -26,6 +27,8 @@ class _LoginPageState extends State<LoginPage> {
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const FeedPage()));
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -44,6 +47,9 @@ class _LoginPageState extends State<LoginPage> {
       String appUserID = userID ?? "";
 
       addUserToFirestore(appUserID);
+
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const FeedPage()));
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
