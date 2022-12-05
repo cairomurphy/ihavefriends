@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ihavefriends/auth.dart';
 import 'package:ihavefriends/models/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -91,6 +92,26 @@ class AppProvider extends ChangeNotifier {
       debugPrint(error.toString());
     }
     return null;
+  }
+
+  Future<void> createSchedule(List<Trip> trips) async {
+    try {
+      String? userID = Auth().currentUser?.uid;
+      String appUserID = userID ?? "";
+
+      List<String> tripIds = trips.map((e) => e.tripID).toList();
+
+      final scheduleRef = _firestore.collection('schedules').doc();
+      Schedule schedule = Schedule(scheduleID: scheduleRef.id, userID: appUserID, tripList: tripIds);
+      await scheduleRef.set(schedule.toJson());
+
+      for (var trip in trips) {
+        final tripRef = _firestore.collection('trips').doc();
+        await tripRef.set(trip.toJson());
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
   // Example write to Firestore
