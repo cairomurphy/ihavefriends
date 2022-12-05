@@ -19,7 +19,7 @@ class FeedItem extends StatelessWidget {
         elevation: 3,
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: FutureBuilder<User?>(
+          child: FutureBuilder<AppUser?>(
             future: Provider.of<AppProvider>(context, listen: false).fetchBuddy(trip.userID),
             builder: (builder, snapshot) {
               if (snapshot.hasData) {

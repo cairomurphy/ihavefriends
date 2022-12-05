@@ -44,7 +44,7 @@ class AppProvider extends ChangeNotifier {
     ];
   }
 
-  Future<User?> fetchBuddy(String id) async {
+  Future<AppUser?> fetchBuddy(String id) async {
     try {
       final doc = await _firestore.collection('users').doc(id).get();
       if (doc.exists) {
@@ -68,6 +68,16 @@ class AppProvider extends ChangeNotifier {
       debugPrint(error.toString());
     }
     return null;
+  }
+
+  Future<void> addUserToFirestore(String uid) async {
+    try {
+      AppUser appUser = AppUser(userID: uid, firstName: "", lastName: "");
+      var ref = _firestore.collection('users').doc(uid);
+      await ref.set(appUser.toJson());
+    } catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
   // Example write to Firestore
