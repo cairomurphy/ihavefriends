@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ihavefriends/auth.dart';
+import 'package:ihavefriends/models/models.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ihavefriends/pages/feed%20page/feed_page.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -22,6 +27,8 @@ class _LoginPageState extends State<LoginPage> {
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const FeedPage()));
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -35,10 +42,28 @@ class _LoginPageState extends State<LoginPage> {
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
+
+      String? userID = Auth().currentUser?.uid;
+      String appUserID = userID ?? "";
+
+      addUserToFirestore(appUserID);
+
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const FeedPage()));
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
       });
+    }
+  }
+
+  Future<void> addUserToFirestore(String uid) async {
+    try {
+      AppUser appUser = AppUser(userID: uid, firstName: "", lastName: "");
+      var ref = _firestore.collection('users').doc(uid);
+      await ref.set(appUser.toJson());
+    } catch (error) {
+      debugPrint(error.toString());
     }
   }
 
