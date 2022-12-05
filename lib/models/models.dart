@@ -14,6 +14,7 @@ class AppUser {
   String biography;
   String imageURL;
   String phoneNumber;
+  String scheduleID;
 
   AppUser({
     required this.userID,
@@ -24,6 +25,7 @@ class AppUser {
     this.biography = '',
     this.imageURL = '',
     this.phoneNumber = '',
+    this.scheduleID = '',
   });
 
   factory AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
