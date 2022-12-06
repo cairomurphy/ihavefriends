@@ -44,7 +44,7 @@ class AppProvider extends ChangeNotifier {
     ];
   }
 
-  Future<AppUser?> fetchBuddy(String id) async {
+  Future<AppUser?> fetchAppUser(String id) async {
     try {
       final doc = await _firestore.collection('users').doc(id).get();
       if (doc.exists) {

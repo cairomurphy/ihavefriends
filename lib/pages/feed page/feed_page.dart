@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ihavefriends/models/models.dart';
 import 'package:ihavefriends/pages/feed%20page/feed_item.dart';
+import 'package:ihavefriends/pages/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:ihavefriends/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -73,6 +74,11 @@ class FeedPage extends StatelessWidget {
                       onPressed: () {
                         logout(context);
                       }),
+                    ActionChip(
+                        label: Text("Profile"),
+                        onPressed: () {
+                          profilePage(context);
+                        }),
                     const SizedBox(height: 15,),
                     const Text(
                       'Upcoming Walks',
@@ -133,5 +139,10 @@ class FeedPage extends StatelessWidget {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => LoginPage()));
+  }
+
+  Future<void> profilePage(BuildContext context) async {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => ProfilePage()));
   }
 }
