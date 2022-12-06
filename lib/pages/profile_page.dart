@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ihavefriends/auth.dart';
@@ -5,6 +6,7 @@ import 'package:ihavefriends/models/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ihavefriends/pages/edit_schedule.dart';
 import 'package:ihavefriends/pages/feed%20page/feed_page.dart';
+import 'package:ihavefriends/pages/login_register_page.dart';
 import 'package:ihavefriends/widgets/input_widgets.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -68,88 +70,115 @@ class ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
-
-
-    // Build a Form widget using the _formKey created above.
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: const Text('Profile'),
       ),
       body: SafeArea(
-        child: FutureBuilder<AppUser?>(
-          future: getAppUser(),
-          builder: (builder, snapshot) {
-            if (snapshot.hasData) {
-              final data = snapshot.data;
-              if (data != null) {
-                final appUser = data;
+        child: Column(
+          children: [
+            Expanded(
+              child: FutureBuilder<AppUser?>(
+                future: getAppUser(),
+                builder: (builder, snapshot) {
+                  if (snapshot.hasData) {
+                    final data = snapshot.data;
+                    if (data != null) {
+                      final appUser = data;
 
-                return Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Form(
-                    key: _formKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ActionChip(
-                              label: Text("Feed Page"),
-                              onPressed: () {
-                                feedPage(context);
-                              }),
-                          textEntryField("First Name", _controllerFirstName, appUser.firstName),
-                          textEntryField("Last Name", _controllerLastName, appUser.lastName),
-                          textEntryField("Gender", _controllerGender, appUser.gender),
-                          numericEntryField("Age", _controllerAge, appUser.age.toString()),
-                          textEntryField("Bio", _controllerBiography, appUser.biography),
-                          numericEntryField("Phone Number", _controllerPhoneNumber, appUser.phoneNumber),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                updateAppUser();
-                              },
-                              child: const Text('Save'),
+                      return Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Form(
+                          key: _formKey,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                textEntryField("First Name", _controllerFirstName, appUser.firstName),
+                                textEntryField("Last Name", _controllerLastName, appUser.lastName),
+                                textEntryField("Gender", _controllerGender, appUser.gender),
+                                numericEntryField("Age", _controllerAge, appUser.age.toString()),
+                                textEntryField("Bio", _controllerBiography, appUser.biography),
+                                numericEntryField("Phone Number", _controllerPhoneNumber, appUser.phoneNumber),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          updateAppUser();
+                                        },
+                                        child: const Text('Save Profile'),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(builder: (context) => const EditSchedule()));
+                                        },
+                                        child: const Text('Edit Schedule'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => const EditSchedule()));
-                              },
-                              child: const Text('Edit Schedule'),
-                            ),
+                        ),
+                      );
+                    } else {
+                      return const Center(
+                        child: Text(
+                          'unknown',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.grey
                           ),
-                        ],
+                        ),
+                      );
+                    }
+                  } else {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: SpinKitFadingCircle(
+                        size: 20,
+                        color: Colors.blue,
                       ),
-                    ),
-                  ),
-                );
-              } else {
-                return const Center(
-                  child: Text(
-                    'unknown',
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.grey
-                    ),
-                  ),
-                );
-              }
-            } else {
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: SpinKitFadingCircle(
-                  size: 20,
-                  color: Colors.blue,
-                ),
-              );
-            }
-          },
+                    );
+                  }
+                },
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ActionChip(
+                    label: const Text("Feed Page"),
+                    onPressed: () {
+                      feedPage(context);
+                    }),
+                const SizedBox(width: 50,),
+                ActionChip(
+                    label: const Text("Logout"),
+                    backgroundColor: Colors.red,
+                    onPressed: () {
+                      logout(context);
+                    }),
+              ],
+            ),
+            const SizedBox(height: 15,)
+          ],
         ),
       ),
     );
@@ -157,6 +186,6 @@ class ProfilePageState extends State<ProfilePage> {
 
   Future<void> feedPage(BuildContext context) async {
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => FeedPage()));
+        MaterialPageRoute(builder: (context) => const FeedPage()));
   }
 }

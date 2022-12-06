@@ -1,8 +1,6 @@
 import 'package:ihavefriends/auth.dart';
-import 'package:ihavefriends/pages/edit_schedule.dart';
 import 'package:ihavefriends/pages/login_register_page.dart';
 import 'package:flutter/material.dart';
-
 import 'pages/feed page/feed_page.dart';
 
 class WidgetTree extends StatefulWidget {

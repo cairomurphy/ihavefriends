@@ -68,10 +68,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Widget _title() {
-    return const Text('Firebase Auth');
-  }
-
   Widget _entryField(
       String title,
       TextEditingController controller,
@@ -111,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _title(),
+        title: const Text('Login'),
       ),
       body: Container(
         height: double.infinity,
