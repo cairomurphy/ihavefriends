@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ihavefriends/models/models.dart';
 import 'package:provider/provider.dart';
 import 'package:ihavefriends/provider.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
+
 
 class EditSchedule extends StatefulWidget{
   const EditSchedule({super.key});
@@ -13,8 +14,12 @@ class EditSchedule extends StatefulWidget{
 
 class _EditScheduleState extends State<EditSchedule> {
   Location? dropDownValue;
+  String dropdownVal = 'Monday';
   String courseName = '';
   int numClasses = 3;
+  String weekDay = '';
+  TimeOfDay time = TimeOfDay.now();
+  List<String> dayList = <String>['Monday','Tuesday','Wednesday','Thursday','Friday'];
 
   @override
   Widget build(BuildContext context) {
@@ -133,67 +138,50 @@ class _EditScheduleState extends State<EditSchedule> {
               return const SizedBox();
             },
           ),
-          const TextField(
-            decoration: InputDecoration(hintText: 'End Time'),
+
+          DropdownButton<String>(
+            value: dropdownVal,
+            hint: const Text(
+                'Select Day'
+            ),
+            elevation: 16,
+            style: const TextStyle(color: Colors.deepPurple),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                dropdownVal = value!;
+              });
+            },
+            items: dayList.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
           ),
+
+            ElevatedButton(
+              onPressed: () async {
+                final pickedTime = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+
+                if (pickedTime != null) {
+                  setState(() {
+                    time = pickedTime;
+                  });
+                }
+              },
+
+              child: const Text('Select End Time'),
+            )
         ],),
       ),
     );
-  }
-}
-
-class CustomPicker extends CommonPickerModel {
-  String digits(int value, int length) {
-    return '$value'.padLeft(length, "0");
-  }
-
-  CustomPicker({DateTime? currentTime, LocaleType? locale})
-      : super(locale: locale) {
-    this.currentTime = currentTime ?? DateTime.now();
-    this.setLeftIndex(this.currentTime.hour);
-    this.setMiddleIndex(this.currentTime.minute);
-    this.setRightIndex(this.currentTime.second);
-  }
-
-  @override
-  String? leftStringAtIndex(int index) {
-    if (index >= 0 && index < 24) {
-      return this.digits(index, 2);
-    } else {
-      return null;
-    }
-  }
-
-  @override
-  String? middleStringAtIndex(int index) {
-    if (index >= 0 && index < 12) {
-      return this.digits(index, 2);
-    } else {
-      return null;
-    }
-  }
-
-  @override
-  String? rightStringAtIndex(int index) {
-    if (index >= 0 && index < 60) {
-      return this.digits(index, 2);
-    } else {
-      return null;
-    }
-  }
-
-  @override
-  String leftDivider() {
-    return "|";
-  }
-
-  @override
-  String rightDivider() {
-    return "|";
-  }
-
-  @override
-  List<int> layoutProportions() {
-    return [1, 2, 1];
   }
 }
