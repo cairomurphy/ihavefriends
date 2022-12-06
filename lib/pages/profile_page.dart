@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ihavefriends/auth.dart';
 import 'package:ihavefriends/models/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ihavefriends/pages/edit_schedule.dart';
 import 'package:ihavefriends/pages/feed%20page/feed_page.dart';
 import 'package:ihavefriends/widgets/input_widgets.dart';
 
@@ -110,7 +111,17 @@ class ProfilePageState extends State<ProfilePage> {
                               onPressed: () {
                                 updateAppUser();
                               },
-                              child: const Text('Submit'),
+                              child: const Text('Save'),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => const EditSchedule()));
+                              },
+                              child: const Text('Edit Schedule'),
                             ),
                           ),
                         ],

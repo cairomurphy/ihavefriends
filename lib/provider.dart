@@ -10,10 +10,6 @@ class AppProvider extends ChangeNotifier {
   AppProvider();
 
   Future<List<Trip>> findWalkingBuddies() async {
-    /// Find schedule matches, grab the schedules that the current student matches with,
-    /// order them chronologically starting with today's weekday, return list
-    /// NOTE: DO NOT return the list of the current student's trips. Return the trips with different student's IDs
-    //TODO: find walking buddies
     List<Trip> finalList = [];
     try {
       //pulls all trips
@@ -52,35 +48,11 @@ class AppProvider extends ChangeNotifier {
       debugPrint(error.toString());
     }
     return finalList;
-    //returning dummy data
-    // return [
-    //   Trip(
-    //       tripID: '1',
-    //       startingLocationID: '1',
-    //       endingLocationID: '2',
-    //       scheduleID: '1',
-    //       userID: '1',
-    //       departureTime: DateTime.now()),
-    //   Trip(
-    //       tripID: '1',
-    //       startingLocationID: '2',
-    //       endingLocationID: '3',
-    //       scheduleID: '1',
-    //       userID: '1',
-    //       departureTime: DateTime.now()),
-    //   Trip(
-    //       tripID: '1',
-    //       startingLocationID: '3',
-    //       endingLocationID: '4',
-    //       scheduleID: '1',
-    //       userID: '1',
-    //       departureTime: DateTime.now())
-    // ];
   }
 
   Future<AppUser?> fetchAppUser(String id) async {
     try {
-      final doc = await _firestore.collection('users').doc(id).get();
+      final doc = await _firestore.collection('appusers').doc(id).get();
       if (doc.exists) {
         AppUser appUser = AppUser.fromJson(doc.data()!);
         return appUser;
@@ -132,6 +104,15 @@ class AppProvider extends ChangeNotifier {
       String? userID = Auth().currentUser?.uid;
       String appUserID = userID ?? "";
       List<Trip> trips = [];
+
+      final deleteDocs = await _firestore.collection('schedules').where('userID', isEqualTo: appUserID).get();
+      for (var doc in deleteDocs.docs) {
+        await _firestore.collection('schedules').doc(doc.id).delete();
+      }
+      final deleteDocs2 = await _firestore.collection('trips').where('userID', isEqualTo: appUserID).get();
+      for (var doc in deleteDocs2.docs) {
+        await _firestore.collection('trips').doc(doc.id).delete();
+      }
 
       final scheduleRef = _firestore.collection('schedules').doc();
 
