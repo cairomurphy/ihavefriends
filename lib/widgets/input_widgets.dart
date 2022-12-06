@@ -5,9 +5,10 @@ import 'package:flutter/widgets.dart';
 Widget textEntryField(
     String title,
     TextEditingController controller,
+    String initialValue
     ) {
   return TextField(
-    controller: controller,
+    controller: controller..text = initialValue,
     decoration: InputDecoration(
       labelText: title,
     ),
@@ -17,9 +18,10 @@ Widget textEntryField(
 Widget numericEntryField(
     String title,
     TextEditingController controller,
+    String initialValue
     ) {
   return TextField(
-      controller: controller,
+      controller: controller..text = initialValue,
       decoration: InputDecoration(labelText: title),
       keyboardType: TextInputType.number,
       inputFormatters: <TextInputFormatter>[

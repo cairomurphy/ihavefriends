@@ -30,6 +30,21 @@ class ProfilePageState extends State<ProfilePage> {
   final TextEditingController _controllerBiography = TextEditingController();
   final TextEditingController _controllerPhoneNumber = TextEditingController();
 
+  Future<AppUser?> getAppUser() async {
+    String? userID = Auth().currentUser?.uid;
+    String appUserID = userID ?? "";
+
+    try {
+      var doc = await _firestore.collection('appusers').doc(appUserID).get();
+      if (doc.exists) {
+        return AppUser.fromJson(doc.data()!);
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+    return null;
+  }
+
   Future<void> updateAppUser() async {
     String? userID = Auth().currentUser?.uid;
     String appUserID = userID ?? "";
@@ -53,6 +68,9 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    var futureAppUser = getAppUser();
+    final appUser = futureAppUser as AppUser;
+
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       appBar: AppBar(
@@ -72,12 +90,12 @@ class ProfilePageState extends State<ProfilePage> {
                     onPressed: () {
                       feedPage(context);
                     }),
-                textEntryField("First Name", _controllerFirstName),
-                textEntryField("Last Name", _controllerLastName),
-                textEntryField("Gender", _controllerGender),
-                numericEntryField("Age", _controllerAge),
-                textEntryField("Bio", _controllerBiography),
-                numericEntryField("Phone Number", _controllerPhoneNumber),
+                textEntryField("First Name", _controllerFirstName, appUser.firstName),
+                textEntryField("Last Name", _controllerLastName, appUser.lastName),
+                textEntryField("Gender", _controllerGender, appUser.gender),
+                numericEntryField("Age", _controllerAge, appUser.age.toString()),
+                textEntryField("Bio", _controllerBiography, appUser.biography),
+                numericEntryField("Phone Number", _controllerPhoneNumber, appUser.phoneNumber),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
