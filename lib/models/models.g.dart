@@ -50,8 +50,8 @@ Trip _$TripFromJson(Map<String, dynamic> json) => Trip(
       scheduleID: json['scheduleID'] as String,
       userID: json['userID'] as String,
       courseName: json['courseName'] as String? ?? '',
-      startingZone: json['startingZone'] as int? ?? 0,
-      endingZone: json['endingZone'] as int? ?? 0,
+      startingZone: json['startingZone'] as String? ?? '',
+      endingZone: json['endingZone'] as String? ?? '',
       departureTime: DateTime.parse(json['departureTime'] as String),
     );
 

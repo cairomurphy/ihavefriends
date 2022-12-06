@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ihavefriends/auth.dart';
 import 'package:ihavefriends/models/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ihavefriends/models/utility_models.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -81,7 +82,7 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
-  Future <List<Location>?> fetchLocations() async {
+  Future<List<Location>?> fetchLocations() async {
     try {
       final doc = await _firestore.collection('locations').get();
       if (doc.docs.isNotEmpty) {
@@ -94,21 +95,39 @@ class AppProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<void> createSchedule(List<Trip> trips) async {
+  Future<void> createSchedule(List<StudentClass> classes) async {
     try {
       String? userID = Auth().currentUser?.uid;
       String appUserID = userID ?? "";
-
-      List<String> tripIds = trips.map((e) => e.tripID).toList();
+      List<Trip> trips = [];
 
       final scheduleRef = _firestore.collection('schedules').doc();
-      Schedule schedule = Schedule(scheduleID: scheduleRef.id, userID: appUserID, tripList: tripIds);
-      await scheduleRef.set(schedule.toJson());
+
+      for (var i = 0; i < classes.length - 1; i++) {
+        if (classes[i].endTime.weekday == classes[i+1].endTime.weekday) {
+          trips.add(Trip(
+              tripID: '',
+              startingLocationID: classes[i].location.locationID,
+              endingLocationID: classes[i + 1].location.locationID,
+              scheduleID: scheduleRef.id,
+              userID: appUserID,
+              courseName: classes[i].name,
+              startingZone: classes[i].location.zoneID,
+              endingZone: classes[i + 1].location.zoneID,
+              departureTime: classes[i].endTime));
+        }
+      }
 
       for (var trip in trips) {
         final tripRef = _firestore.collection('trips').doc();
+        trip.tripID = tripRef.id;
         await tripRef.set(trip.toJson());
       }
+
+      List<String> tripIds = trips.map((e) => e.tripID).toList();
+
+      Schedule schedule = Schedule(scheduleID: scheduleRef.id, userID: appUserID, tripList: tripIds);
+      await scheduleRef.set(schedule.toJson());
     } catch (error) {
       debugPrint(error.toString());
     }

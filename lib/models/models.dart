@@ -54,8 +54,8 @@ class Trip {
   String scheduleID;
   String userID;
   String courseName;
-  int startingZone;
-  int endingZone;
+  String startingZone;
+  String endingZone;
   DateTime departureTime;
 
   Trip({
@@ -65,8 +65,8 @@ class Trip {
     required this.scheduleID,
     required this.userID,
     this.courseName = '',
-    this.startingZone = 0,
-    this.endingZone = 0,
+    this.startingZone = '',
+    this.endingZone = '',
     required this.departureTime
   });
 
