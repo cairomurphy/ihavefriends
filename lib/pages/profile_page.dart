@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ihavefriends/auth.dart';
 import 'package:ihavefriends/models/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -68,8 +69,7 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    var futureAppUser = getAppUser();
-    final appUser = futureAppUser as AppUser;
+
 
     // Build a Form widget using the _formKey created above.
     return Scaffold(
@@ -77,38 +77,68 @@ class ProfilePageState extends State<ProfilePage> {
         title: Text('Profile'),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column( 
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ActionChip(
-                    label: Text("Feed Page"),
-                    onPressed: () {
-                      feedPage(context);
-                    }),
-                textEntryField("First Name", _controllerFirstName, appUser.firstName),
-                textEntryField("Last Name", _controllerLastName, appUser.lastName),
-                textEntryField("Gender", _controllerGender, appUser.gender),
-                numericEntryField("Age", _controllerAge, appUser.age.toString()),
-                textEntryField("Bio", _controllerBiography, appUser.biography),
-                numericEntryField("Phone Number", _controllerPhoneNumber, appUser.phoneNumber),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      updateAppUser();
-                    },
-                    child: const Text('Submit'),
+        child: FutureBuilder<AppUser?>(
+          future: getAppUser(),
+          builder: (builder, snapshot) {
+            if (snapshot.hasData) {
+              final data = snapshot.data;
+              if (data != null) {
+                final appUser = data;
+
+                return Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Form(
+                    key: _formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ActionChip(
+                              label: Text("Feed Page"),
+                              onPressed: () {
+                                feedPage(context);
+                              }),
+                          textEntryField("First Name", _controllerFirstName, appUser.firstName),
+                          textEntryField("Last Name", _controllerLastName, appUser.lastName),
+                          textEntryField("Gender", _controllerGender, appUser.gender),
+                          numericEntryField("Age", _controllerAge, appUser.age.toString()),
+                          textEntryField("Bio", _controllerBiography, appUser.biography),
+                          numericEntryField("Phone Number", _controllerPhoneNumber, appUser.phoneNumber),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                updateAppUser();
+                              },
+                              child: const Text('Submit'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
+                );
+              } else {
+                return const Center(
+                  child: Text(
+                    'unknown',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey
+                    ),
+                  ),
+                );
+              }
+            } else {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: SpinKitFadingCircle(
+                  size: 20,
+                  color: Colors.blue,
                 ),
-              ],
-            ),
-          ),
-    ),
+              );
+            }
+          },
         ),
       ),
     );
