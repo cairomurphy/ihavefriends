@@ -4,6 +4,7 @@ import 'package:ihavefriends/auth.dart';
 import 'package:ihavefriends/models/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ihavefriends/pages/feed%20page/feed_page.dart';
+import 'package:ihavefriends/pages/profile_page.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -49,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
       addUserToFirestore(appUserID);
 
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const FeedPage()));
+          MaterialPageRoute(builder: (context) => const ProfilePage()));
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -60,15 +61,11 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> addUserToFirestore(String uid) async {
     try {
       AppUser appUser = AppUser(userID: uid, firstName: "", lastName: "");
-      var ref = _firestore.collection('users').doc(uid);
+      var ref = _firestore.collection('appusers').doc(uid);
       await ref.set(appUser.toJson());
     } catch (error) {
       debugPrint(error.toString());
     }
-  }
-
-  Widget _title() {
-    return const Text('Firebase Auth');
   }
 
   Widget _entryField(
@@ -110,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _title(),
+        title: const Text('Login'),
       ),
       body: Container(
         height: double.infinity,

@@ -14,6 +14,7 @@ class AppUser {
   String biography;
   String imageURL;
   String phoneNumber;
+  String scheduleID;
 
   AppUser({
     required this.userID,
@@ -24,6 +25,7 @@ class AppUser {
     this.biography = '',
     this.imageURL = '',
     this.phoneNumber = '',
+    this.scheduleID = '',
   });
 
   factory AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
@@ -54,8 +56,8 @@ class Trip {
   String scheduleID;
   String userID;
   String courseName;
-  int startingZone;
-  int endingZone;
+  String startingZone;
+  String endingZone;
   DateTime departureTime;
 
   Trip({
@@ -65,8 +67,8 @@ class Trip {
     required this.scheduleID,
     required this.userID,
     this.courseName = '',
-    this.startingZone = 0,
-    this.endingZone = 0,
+    this.startingZone = '',
+    this.endingZone = '',
     required this.departureTime
   });
 

@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
             _userUid(),
             _signOutButton(),
             ActionChip(
-                label: Text("Logout"),
+                label: const Text("Logout"),
                 onPressed: () {
                   logout(context);
                 }),
@@ -57,6 +57,6 @@ class HomePage extends StatelessWidget {
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginPage()));
+        MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 }
